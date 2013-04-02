@@ -79,9 +79,10 @@ class WeiXin(object):
         params['nonce'] = self.nonce
 
         signature = self.signature
-        echostr = self.echostr
+        # 不需要判断echostr，因为每个POST请求不会发echostr，只有第一次Get请求会发echostr
+        # echostr = self.echostr
 
-        if echostr is not None and self.is_not_none(params):
+        if self.is_not_none(params):
             _signature = self._signature(params)
             if _signature == signature:
                 return True
