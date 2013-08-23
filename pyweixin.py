@@ -79,12 +79,10 @@ class WeiXin(object):
         params['nonce'] = self.nonce
 
         signature = self.signature
-        # 不需要判断echostr，因为每个POST请求不会发echostr，只有第一次Get请求会发echostr
-        # echostr = self.echostr
 
         if self.is_not_none(params):
-            _signature = self._signature(params)
-            if _signature == signature:
+            gen_signature = self.gen_signature(params)
+            if gen_signature == signature:
                 return True
         return False
 
@@ -94,7 +92,8 @@ class WeiXin(object):
                 return False
         return True
 
-    def _signature(self, params):
+    @classmethod
+    def gen_signature(self, params):
         '''http://docs.python.org/2/library/hashlib.html
         '''
         a = sorted([v for k, v in params.items()])
@@ -103,6 +102,15 @@ class WeiXin(object):
 
 import unittest
 class WeiXinTestCase(unittest.TestCase):
+    def test_gen_signature(self):
+        params = {
+            'token':'token',
+            'timestamp':'timestamp',
+            'nonce':'nonce',
+        }
+        gen_signature = WeiXin.gen_signature(params)
+        self.assertEqual('6db4861c77e0633e0105672fcd41c9fc2766e26e', gen_signature)
+
     def test_on_connect_validate(self):
         weixin = WeiXin.on_connect(token='token',
             timestamp='timestamp',
