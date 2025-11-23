@@ -171,8 +171,6 @@ class WeiXin(object):
             raise ValueError("thumb_media_id 不能为空")
         
         data = {"articles": [article]}
-        data_to_send = json.dumps(data, ensure_ascii=False)
         
-        response = requests.post(url, data=data_to_send, 
-                                headers={'Content-Type': 'application/json'})
+        response = requests.post(url, json=data)
         return response.json()

@@ -20,7 +20,7 @@ if __name__ == '__main__':
         title='文章标题',
         digest='文章摘要',
         content='<p>文章内容</p>',
-        author='作者名',
+        author='',
         thumb_media_id=THUMB_MEDIA_ID,
     )
     print(draft)
